@@ -1,0 +1,46 @@
+{% extends "frontendTemplates/layouts/webplayer/frame_library.html" %}
+
+{% block title %} Spotify Clone | Webplayer Home {% endblock %}
+
+{% block main-content %}
+
+{% load static %}
+
+<section id="section-main">
+
+    <div class="music">
+        <div class="music-page">
+            <div class="music-head">
+                <div class="music-head-item">
+                    <h1>All Songs Library</h1>
+                </div>
+            </div>
+            <div class="music-row">
+
+                {% if data|length == 0 %}
+                    <p>No Songs Found!</p>
+                {% else %}
+
+                {% for row in data %}
+
+                <a href="{% url 'frontend.webplayer.library' sid=row.id %}" class="music-col">
+                    <div class="music-img">
+                        {% static './images/home.jpg' as baseURL %}
+                        <img src="{{ baseURL|cut:'.jpg' }}{{ forloop.counter }}.jpg" alt="night" class="img-fluid">
+                        <button class="music-playBtn">
+                            <img src="{% static './images/play.svg' %}" alt="play">
+                        </button>
+                    </div>
+                    <h3>{{ row.song_name }}</h3>
+                    <h5>{{ row.artist.artist_name }}</h5>
+                </a>
+
+                {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

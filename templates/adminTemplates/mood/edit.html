@@ -1,0 +1,53 @@
+{% extends "adminTemplates/layouts/layout-dashboard.html" %}
+{% block title %} Admin Dashboard | Mood Edit {% endblock %}
+{% block main-section %}
+
+{% if messages %}
+<div class="alert alert-success" role="alert">
+{% for msg in messages %}
+    <b>{{ msg }}</b>
+    <br>
+{% endfor %}
+</div>
+{% endif %}
+
+<div class="container">
+<div class="row">
+<div class="col-12 text-center">
+    <div class="main-section">
+        <h2 class="content-heading">Edit Mood</h2>
+    <form action="{% url 'admin.mood.update' id=mood.id %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+
+                <div class="form-group text-left">
+                <label for="name">Mood Name</label>
+                <input type="text" name="name" class="form-control" id="name" value="{{ mood.mood_name }}">
+                </div>
+
+            </div>
+            <div class="col-6">
+
+                <div class="form-group text-left">
+                <label for="description">Mood Description</label>
+                <input type="text" name="description" class="form-control" id="description" value="{{ mood.mood_des }}">
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
+                <button type="submit" class="btn btn-outline-success">Update</button>
+                <button type="button" onclick="location.href = '{% url 'admin.mood.index' %}'" class="btn btn-outline-dark">Dismiss</button>
+            </div>
+        </div>
+
+    </form>
+        
+
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

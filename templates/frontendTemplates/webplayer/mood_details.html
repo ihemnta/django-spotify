@@ -1,0 +1,58 @@
+{% extends "frontendTemplates/layouts/webplayer/frame.html" %}
+
+{% block title %} Spotify Clone | Webplayer Mood Songs {% endblock %}
+
+{% block main-content %}
+
+{% load static %}
+
+<section id="section-main">
+    <div class="filterNav">
+        <a href="{% url 'frontend.webplayer.index.id' sid=song.id %}" class="filterNav-link">Featured</a>
+        <a href="{% url 'frontend.webplayer.category' sid=song.id %}" class="filterNav-link">Categories</a>
+        <a href="{% url 'frontend.webplayer.genre' sid=song.id %}" class="filterNav-link">Genre</a>
+        <a href="{% url 'frontend.webplayer.mood' sid=song.id %}" class="filterNav-link active">Mood</a>
+        <a href="{% url 'frontend.webplayer.artist' sid=song.id %}" class="filterNav-link">Artist</a>
+        <a href="{% url 'frontend.webplayer.favorite' sid=song.id %}" class="filterNav-link">Favorites</a>
+    </div>
+    <div class="music">
+        <div class="music-page">
+            <div class="music-head">
+                <div class="music-head-item">
+                    {% if not mood %}
+                        <p>No such Mood found! Displaying All Songs!</p>
+                    {% else %}
+                        <h1>{{ mood.mood_name }} Songs</h1>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="music-row">
+
+                {% if mood_songs|length == 0 %}
+
+                    <p>No songs found!</p>
+
+                {% else %}
+                {% for row in mood_songs %}
+
+                <a href="{% url 'frontend.webplayer.mood.details' mid=row.mood.id sid=row.id %}" class="music-col">
+                    <div class="music-img">
+                        {% static './images/home.jpg' as baseURL %}
+                        <img src="{{ baseURL|cut:'.jpg' }}{{ forloop.counter }}.jpg" alt="night" class="img-fluid">
+                        <button class="music-playBtn">
+                            <img src="{% static './images/play.svg' %}" alt="play">
+                        </button>
+                    </div>
+                    <h3>{{ row.song_name }}</h3>
+                    <h5>{{ row.artist.artist_name }}</h5>
+                </a>
+
+                {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
